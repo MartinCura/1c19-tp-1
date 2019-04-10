@@ -11,7 +11,7 @@ const isObject = variable => variable instanceof Object;
 /*
  * Deep copy of source object into tarjet object.
  * It does not overwrite properties.
-*/
+ */
 const assignObject = (target, source) => {
   if (target && isObject(target) && source && isObject(source)) {
     Object.keys(source).forEach(key => {
@@ -41,7 +41,8 @@ const config = {
     session: {
       header_name: 'authorization',
       secret: process.env.NODE_API_SESSION_SECRET
-    }
+    },
+    delay: process.env.DELAY_TIME_MILLISECONDS || 5000
   }
 };
 
