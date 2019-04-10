@@ -41,7 +41,8 @@ const config = {
     session: {
       header_name: 'authorization',
       secret: process.env.NODE_API_SESSION_SECRET
-    }
+    },
+    delay: process.env.DELAY_TIME_MILLISECONDS || 5000
   }
 };
 
