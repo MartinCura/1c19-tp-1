@@ -2,7 +2,7 @@ const app = require('./app'),
   config = require('./config'),
   logger = require('./app/logger');
 
-const port = config.common.api.port || 8080;
+const port = config.common.api.port || 8125;
 
 Promise.resolve()
 
