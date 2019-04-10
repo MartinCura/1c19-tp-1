@@ -1,6 +1,5 @@
 const repl = require('repl'),
   fs = require('fs'),
-  
   pjson = require('./package.json');
 
 const convertFunctionToAsync = f => async (...args) => {

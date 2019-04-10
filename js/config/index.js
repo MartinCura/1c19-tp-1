@@ -11,7 +11,7 @@ const isObject = variable => variable instanceof Object;
 /*
  * Deep copy of source object into tarjet object.
  * It does not overwrite properties.
-*/
+ */
 const assignObject = (target, source) => {
   if (target && isObject(target) && source && isObject(source)) {
     Object.keys(source).forEach(key => {
