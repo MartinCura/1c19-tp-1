@@ -12,7 +12,7 @@ config:
       plugins:
         statsd:
           host: localhost
-          port: 8125
+          port: 8126
           prefix: "artillery-gunicorn"
 
   pool: 50 # All HTTP requests from all virtual users will be sent over the same connections

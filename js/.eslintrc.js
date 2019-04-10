@@ -1,1 +1,1 @@
-module.exports = require('eslint-config-wolox-node');
+//module.exports = require('eslint-config-wolox-node');
