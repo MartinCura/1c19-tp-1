@@ -47,7 +47,12 @@ services:
 
     gunicorn:
         build: './py'
-
+    gunicorn_1:
+        build: './py'
+    gunicorn_2:
+        build: './py'
+    gunicorn_3:
+        build: './py'
 
 volumes:
     grafana_config:

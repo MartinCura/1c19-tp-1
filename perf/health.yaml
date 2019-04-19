@@ -1,0 +1,57 @@
+config:
+  environments:
+    node:
+      target: 'http://localhost:5555/node'
+      plugins:
+        statsd:
+          host: localhost
+          port: 8125
+          prefix: "artillery-node"
+    gunicorn:
+      target: 'http://localhost:5555/gunicorn'
+      plugins:
+        statsd:
+          host: localhost
+          port: 8125
+          prefix: "artillery-gunicorn"
+    python_replicated:
+      target: 'http://localhost:5555/python_replicated'
+      plugins:
+        statsd:
+          host: localhost
+          port: 8125
+          prefix: "artillery-python_replicated"
+
+  pool: 50 # All HTTP requests from all virtual users will be sent over the same connections
+
+  # phases:
+  #   - name: Plain
+  #     duration: 120
+  #     arrivalRate: 5
+
+  phases:
+    - name: plano bajo
+      duration: 40
+      arrivalRate: 20
+    - name: rampa x5
+      duration: 20
+      arrivalRate: 20
+      rampTo: 100
+    - name: plano alto
+      duration: 40
+      arrivalRate: 100
+    - name: pausa
+      pause: 20
+    - name: plano mas bajo
+      duration: 20
+      arrivalRate: 10
+    - name: rampa x10
+      duration: 10
+      arrivalRate: 20
+      rampTo: 100
+
+scenarios:
+  - name: Health (/health)
+    flow:
+      - get:
+          url: '/health'

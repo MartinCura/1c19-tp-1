@@ -1,7 +1,6 @@
-
 const config = require('../../config');
 
-exports.healthCheck = (_, res) => res.status(200).send({ uptime: process.uptime() });
+exports.healthCheck = (_, res) => res.status(203).send({ uptime: process.uptime() });
 
 /* eslint-disable no-unused-vars */
 const delay = time => new Promise((resolve, reject) => setTimeout(() => resolve(), time));

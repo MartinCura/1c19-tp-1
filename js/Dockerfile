@@ -10,6 +10,9 @@ RUN npm install
 
 COPY . .
 
-EXPOSE 8125
 ENV NODE_ENV production
-CMD ["node", "server.js"]
+ENV PORT 3000
+
+EXPOSE 3000
+
+ENTRYPOINT ["node", "server.js"]

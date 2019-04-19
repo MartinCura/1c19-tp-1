@@ -14,6 +14,13 @@ config:
           host: localhost
           port: 8125
           prefix: "artillery-gunicorn"
+    python_replicated:
+      target: 'http://localhost:5555/python_replicated'
+      plugins:
+        statsd:
+          host: localhost
+          port: 8125
+          prefix: "artillery-python_replicated"
 
   pool: 50 # All HTTP requests from all virtual users will be sent over the same connections
 
@@ -23,7 +30,7 @@ config:
       arrivalRate: 5
 
 scenarios:
-  - name: Root (/)
+  - name: Intensive (/intensive)
     flow:
       - get:
-          url: '/'
+          url: '/intensive'
