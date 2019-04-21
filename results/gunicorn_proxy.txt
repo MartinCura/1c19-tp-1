@@ -1,0 +1,260 @@
+Started phase 0 (Plain), duration: 60s @ 17:43:18(-0300) 2019-04-21
+Report @ 17:43:28(-0300) 2019-04-21
+Elapsed time: 10 seconds
+  Scenarios launched:  39
+  Scenarios completed: 1
+  Requests completed:  1
+  RPS sent: 4.03
+  Request latency:
+    min: 5017.2
+    max: 5017.2
+    median: 5017.2
+    p95: 5017.2
+    p99: 5017.2
+  Codes:
+    200: 1
+
+Report @ 17:43:38(-0300) 2019-04-21
+Elapsed time: 20 seconds
+  Scenarios launched:  40
+  Scenarios completed: 2
+  Requests completed:  2
+  RPS sent: 4
+  Request latency:
+    min: 9789.6
+    max: 14569.4
+    median: 12179.5
+    p95: 14569.4
+    p99: 14569.4
+  Codes:
+    200: 2
+
+Report @ 17:43:48(-0300) 2019-04-21
+Elapsed time: 30 seconds
+  Scenarios launched:  40
+  Scenarios completed: 2
+  Requests completed:  2
+  RPS sent: 4
+  Request latency:
+    min: 19340.7
+    max: 24102.6
+    median: 21721.7
+    p95: 24102.6
+    p99: 24102.6
+  Codes:
+    200: 2
+
+Report @ 17:43:58(-0300) 2019-04-21
+Elapsed time: 40 seconds
+  Scenarios launched:  40
+  Scenarios completed: 2
+  Requests completed:  2
+  RPS sent: 4
+  Request latency:
+    min: 28861.7
+    max: 33623
+    median: 31242.4
+    p95: 33623
+    p99: 33623
+  Codes:
+    200: 2
+
+Report @ 17:44:08(-0300) 2019-04-21
+Elapsed time: 50 seconds
+  Scenarios launched:  40
+  Scenarios completed: 2
+  Requests completed:  2
+  RPS sent: 4
+  Request latency:
+    min: 38380.7
+    max: 43136
+    median: 40758.3
+    p95: 43136
+    p99: 43136
+  Codes:
+    200: 2
+
+Report @ 17:44:18(-0300) 2019-04-21
+Elapsed time: 1 minute, 0 seconds
+  Scenarios launched:  40
+  Scenarios completed: 2
+  Requests completed:  2
+  RPS sent: 4
+  Request latency:
+    min: 47874.8
+    max: 52653
+    median: 50263.9
+    p95: 52653
+    p99: 52653
+  Codes:
+    200: 2
+
+Started phase 1 (Pause), duration: undefineds @ 17:44:18(-0300) 2019-04-21
+Report @ 17:44:28(-0300) 2019-04-21
+Elapsed time: 1 minute, 10 seconds
+  Scenarios launched:  1
+  Scenarios completed: 28
+  Requests completed:  28
+  RPS sent: 0.1
+  Request latency:
+    min: 57410.6
+    max: 60004.1
+    median: 60001.5
+    p95: 60003.6
+    p99: 60004.1
+  Codes:
+    200: 1
+    504: 27
+
+Report @ 17:44:38(-0300) 2019-04-21
+Elapsed time: 1 minute, 20 seconds
+  Scenarios launched:  0
+  Scenarios completed: 40
+  Requests completed:  40
+  RPS sent: NaN
+  Request latency:
+    min: 59998.4
+    max: 60031.5
+    median: 60001.5
+    p95: 60005.4
+    p99: 60031.5
+  Codes:
+    504: 40
+
+Report @ 17:44:48(-0300) 2019-04-21
+Elapsed time: 1 minute, 30 seconds
+  Scenarios launched:  0
+  Scenarios completed: 40
+  Requests completed:  40
+  RPS sent: NaN
+  Request latency:
+    min: 59999.3
+    max: 60023.5
+    median: 60004.9
+    p95: 60008.4
+    p99: 60023.5
+  Codes:
+    504: 40
+
+Report @ 17:44:58(-0300) 2019-04-21
+Elapsed time: 1 minute, 40 seconds
+  Scenarios launched:  0
+  Scenarios completed: 39
+  Requests completed:  39
+  RPS sent: NaN
+  Request latency:
+    min: 60002.5
+    max: 60009.2
+    median: 60004.4
+    p95: 60007
+    p99: 60009.2
+  Codes:
+    504: 39
+
+Report @ 17:45:08(-0300) 2019-04-21
+Elapsed time: 1 minute, 50 seconds
+  Scenarios launched:  0
+  Scenarios completed: 37
+  Requests completed:  37
+  RPS sent: NaN
+  Request latency:
+    min: 60001.2
+    max: 60007.3
+    median: 60004.5
+    p95: 60007.2
+    p99: 60007.3
+  Codes:
+    504: 37
+
+Report @ 17:45:18(-0300) 2019-04-21
+Elapsed time: 2 minutes, 0 seconds
+  Scenarios launched:  0
+  Scenarios completed: 37
+  Requests completed:  37
+  RPS sent: NaN
+  Request latency:
+    min: 60001.1
+    max: 75401.6
+    median: 60005
+    p95: 64655
+    p99: 75401.6
+  Codes:
+    504: 37
+
+Report @ 17:45:28(-0300) 2019-04-21
+Elapsed time: 2 minutes, 10 seconds
+  Scenarios launched:  0
+  Scenarios completed: 3
+  Requests completed:  3
+  RPS sent: NaN
+  Request latency:
+    min: 61015.5
+    max: 75256.3
+    median: 67251.2
+    p95: 75256.3
+    p99: 75256.3
+  Codes:
+    504: 3
+
+Report @ 17:45:38(-0300) 2019-04-21
+Elapsed time: 2 minutes, 20 seconds
+  Scenarios launched:  0
+  Scenarios completed: 2
+  Requests completed:  2
+  RPS sent: NaN
+  Request latency:
+    min: 75496.3
+    max: 91494.9
+    median: 83495.6
+    p95: 91494.9
+    p99: 91494.9
+  Codes:
+    504: 2
+
+Report @ 17:45:48(-0300) 2019-04-21
+Elapsed time: 2 minutes, 30 seconds
+  Scenarios launched:  0
+  Scenarios completed: 2
+  Requests completed:  2
+  RPS sent: NaN
+  Request latency:
+    min: 91473.1
+    max: 91609.8
+    median: 91541.4
+    p95: 91609.8
+    p99: 91609.8
+  Codes:
+    504: 2
+
+Report @ 17:45:49(-0300) 2019-04-21
+Elapsed time: 2 minutes, 31 seconds
+  Scenarios launched:  0
+  Scenarios completed: 1
+  Requests completed:  1
+  RPS sent: NaN
+  Request latency:
+    min: 91593.5
+    max: 91593.5
+    median: 91593.5
+    p95: 91593.5
+    p99: 91593.5
+  Codes:
+    504: 1
+
+All virtual users finished
+Summary report @ 17:45:49(-0300) 2019-04-21
+  Scenarios launched:  240
+  Scenarios completed: 240
+  Requests completed:  240
+  RPS sent: 1.59
+  Request latency:
+    min: 5017.2
+    max: 91609.8
+    median: 60004
+    p95: 60023.1
+    p99: 91504.7
+  Scenario counts:
+    Proxy (/proxy): 240 (100%)
+  Codes:
+    200: 12
+    504: 228

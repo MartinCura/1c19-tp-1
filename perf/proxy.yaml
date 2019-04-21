@@ -33,11 +33,13 @@ config:
 
   phases:
     - name: Plain
-      duration: 120
-      arrivalRate: 5
+      duration: 60
+      arrivalRate: 4
+    - name: Pause
+      pause: 40
 
 scenarios:
-  - name: Ping (/ping)
+  - name: Proxy (/proxy)
     flow:
       - get:
-          url: '/ping'
+          url: '/proxy'

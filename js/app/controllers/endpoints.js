@@ -12,9 +12,9 @@ const isPrime = number => {
   return number !== 1;
 };
 
-exports.healthCheck = (_, res) => res.status(203).send({ uptime: process.uptime() });
+exports.healthCheck = (_, res) => res.status(200).send({ uptime: process.uptime() });
 
-exports.ping = (_, res) => delay(TIME).then(() => res.status(200).send());
+exports.proxy = (_, res) => delay(TIME).then(() => res.status(200).send());
 
 exports.intensiveLoop = (_, res) => {
   const primeNumbers = [];

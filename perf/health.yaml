@@ -55,7 +55,9 @@ config:
     - name: rampa x10
       duration: 10
       arrivalRate: 20
-      rampTo: 100
+      rampTo: 200
+    - name: pausa
+      pause: 40
 
 scenarios:
   - name: Health (/health)

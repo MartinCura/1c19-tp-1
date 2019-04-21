@@ -33,8 +33,10 @@ config:
 
   phases:
     - name: Plain
-      duration: 120
+      duration: 60
       arrivalRate: 5
+    - name: Pause
+      pause: 40
 
 scenarios:
   - name: Intensive (/intensive)
