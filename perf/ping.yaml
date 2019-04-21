@@ -14,13 +14,20 @@ config:
           host: localhost
           port: 8125
           prefix: "artillery-gunicorn"
-    python_replicated:
-      target: 'http://localhost:5555/python_replicated'
+    gunicorn_replicated:
+      target: 'http://localhost:5555/gunicorn_replicated'
       plugins:
         statsd:
           host: localhost
           port: 8125
-          prefix: "artillery-python_replicated"
+          prefix: "artillery-gunicorn_replicated"
+    gunicorn_multiworker:
+      target: 'http://localhost:5555/gunicorn_multiworker'
+      plugins:
+        statsd:
+          host: localhost
+          port: 8125
+          prefix: "artillery-gunicorn_multiworker"
 
   pool: 50 # All HTTP requests from all virtual users will be sent over the same connections
 
@@ -30,7 +37,7 @@ config:
       arrivalRate: 5
 
 scenarios:
-  - name: Timeout (/rimeout)
+  - name: Ping (/ping)
     flow:
       - get:
-          url: '/timeout'
+          url: '/ping'

@@ -1,15 +1,9 @@
-const config = require('../../config');
+const TIME = process.env.DELAY_TIME_MILLISECONDS || 5000;
+const MAX_NUMBER = process.env.MAX_NUMBER || 5000000;
 
-exports.healthCheck = (_, res) => res.status(203).send({ uptime: process.uptime() });
-
-/* eslint-disable no-unused-vars */
 const delay = time => new Promise((resolve, reject) => setTimeout(() => resolve(), time));
-/* eslint-enable no-unused-vars */
-const TIME = config.common.delay;
 
-exports.timeout = (_, res) => delay(TIME).then(() => res.status(200).send());
-
-const prime = number => {
+const isPrime = number => {
   for (let i = 2; i < Math.floor(Math.sqrt(number)); i++) {
     if (number % i === 0) {
       return false;
@@ -18,12 +12,15 @@ const prime = number => {
   return number !== 1;
 };
 
+exports.healthCheck = (_, res) => res.status(203).send({ uptime: process.uptime() });
+
+exports.ping = (_, res) => delay(TIME).then(() => res.status(200).send());
+
 exports.intensiveLoop = (_, res) => {
-  const c = 10000000;
   const primeNumbers = [];
 
-  for (let j = 2; j < c; j++) {
-    if (prime(j)) {
+  for (let j = 2; j < MAX_NUMBER; j++) {
+    if (isPrime(j)) {
       primeNumbers.push(j);
     }
   }

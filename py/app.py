@@ -4,7 +4,7 @@ import time
 import math
 
 TIMEOUT = 5
-MAX_PRIMO = 2_000_000  # Takes about 8 s in my config
+MAX_PRIMO = 5_000_000  # Takes about 8 s in my config
 
 
 def is_primo(n):
@@ -20,7 +20,7 @@ app = Flask(__name__)
 @app.route("/")
 def root():
     return """/health
-              /timeout
+              /proxy
               /intensiveLoop"""
 
 
@@ -29,14 +29,14 @@ def health_check():
     return "Todo anda bien, Milhouse"
 
 
-@app.route("/timeout")
+@app.route("/proxy")
 def timeout():
     time.sleep(TIMEOUT)
     return "Oof"
 
 
-@app.route("/intensiveLoop")
-def intensiveLoop():
+@app.route("/intensive")
+def intensive():
     primos = []
     for i in range(MAX_PRIMO):
         if is_primo(i):

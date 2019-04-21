@@ -26,7 +26,7 @@ graficos
 
 * Analisis de los valores
 
-### Timeout
+### Ping
   Espera un tiempo determinao y responde (descripcion del compartamiento del endpoint)
 
 * Resultados esperados

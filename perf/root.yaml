@@ -14,16 +14,30 @@ config:
           host: localhost
           port: 8125
           prefix: "artillery-gunicorn"
+    gunicorn_replicated:
+      target: 'http://localhost:5555/gunicorn_replicated'
+      plugins:
+        statsd:
+          host: localhost
+          port: 8125
+          prefix: "artillery-gunicorn_replicated"
+    gunicorn_multiworker:
+      target: 'http://localhost:5555/gunicorn_multiworker'
+      plugins:
+        statsd:
+          host: localhost
+          port: 8125
+          prefix: "artillery-gunicorn_multiworker"
 
   pool: 50 # All HTTP requests from all virtual users will be sent over the same connections
 
   phases:
     - name: Plain
-      duration: 120
+      duration: 60
       arrivalRate: 5
 
 scenarios:
-  - name: Root (/)
+  - name: Root (/health)
     flow:
       - get:
-          url: '/'
+          url: '/health'

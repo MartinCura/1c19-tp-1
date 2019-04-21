@@ -7,35 +7,12 @@
     "npm": "6.7.0"
   },
   "scripts": {
-    "console": "node console.js",
-    "cover": "NODE_ENV=testing istanbul cover ./node_modules/mocha/bin/_mocha  test/app.spec.js",
-    "test": "NODE_ENV=testing ./node_modules/mocha/bin/_mocha --timeout 6000 --exit test/app.spec.js",
-    "test-inspect": "NODE_ENV=testing node --inspect --debug-brk ./node_modules/mocha/bin/_mocha test/app.spec.js",
-    "eslint-check": "eslint --print-config .eslintrc.js --ignore-pattern ./.eslintrc.js | eslint-config-prettier-check",
-    "lint": "eslint \"**/*.js\" --ignore-pattern ./.eslintrc.js",
-    "lint-diff": "git diff --name-only --cached --relative | grep \\\\.js$ | xargs eslint",
-    "lint-fix": "eslint \"**/*.js\" --fix --ignore-pattern ./.eslintrc.js",
-    "precommit": "npm run lint-diff",
-    "outdated": "npm outdated --depth 0",
-    "pretest": "npm run lint",
-    "prestart": "npm run lint",
     "start": "nodemon --inspect server.js"
   },
   "cacheDirectories": [
     "node_modules"
   ],
   "main": "app.js",
-  "author": "Wolox",
-  "homepage": "https://github.com/rinaldia92/prueba.git",
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/rinaldia92/prueba.git.git"
-  },
-  "bugs": {
-    "url": "https://github.com/rinaldia92/prueba.git/issues",
-    "email": "tls@wolox.com.ar"
-  },
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.2",

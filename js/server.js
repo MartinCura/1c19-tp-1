@@ -1,14 +1,10 @@
-const app = require('./app'),
-  config = require('./config'),
-  logger = require('./app/logger');
+const app = require('./app');
 
-const port = config.common.api.port || 8080;
+const port = process.env.PORT || 8080;
 
 Promise.resolve()
-
   .then(() => {
     app.listen(port);
-
-    logger.info(`Listening on port: ${port}`);
+    console.log(`Listening on port: ${port}`);
   })
-  .catch(logger.error);
+  .catch(console.log);

@@ -492,9 +492,14 @@
             "selected": false,
             "text": "artillery-python_replicated",
             "value": "artillery-python_replicated"
+          },
+          {
+            "selected": false,
+            "text": "artillery-python_multiworker",
+            "value": "artillery-python_multiworker"
           }
         ],
-        "query": "artillery-node, artillery-gunicorn, artillery-python_replicated",
+        "query": "artillery-node, artillery-gunicorn, artillery-python_replicated, artillery-python_multiworker",
         "type": "custom"
       },
       {

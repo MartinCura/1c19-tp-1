@@ -53,6 +53,14 @@ services:
         build: './py'
     gunicorn_3:
         build: './py'
+    gunicorn_4:
+        build: './py'
+
+    gunicorn_multiworker:
+        build:
+          context: py
+        environment:
+          - GUNICORN_WORKERS=4
 
 volumes:
     grafana_config:
