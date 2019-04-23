@@ -4,7 +4,7 @@ import time
 import math
 
 TIMEOUT = 5
-MAX_PRIMO = 5_000_000  # Takes about 8 s in my config
+MAX_PRIMO = 5_000_000
 
 
 def is_primo(n):
