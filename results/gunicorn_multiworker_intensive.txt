@@ -1,0 +1,201 @@
+Started phase 0 (Plain), duration: 60s @ 18:16:36(-0300) 2019-04-24
+Report @ 18:16:46(-0300) 2019-04-24
+Elapsed time: 10 seconds
+  Scenarios launched:  499
+  Scenarios completed: 96
+  Requests completed:  96
+  RPS sent: 50.35
+  Request latency:
+    min: 299.9
+    max: 8061.7
+    median: 4095
+    p95: 7660.6
+    p99: 7990.1
+  Codes:
+    200: 96
+
+Report @ 18:16:56(-0300) 2019-04-24
+Elapsed time: 20 seconds
+  Scenarios launched:  500
+  Scenarios completed: 93
+  Requests completed:  93
+  RPS sent: 50.05
+  Request latency:
+    min: 8078.1
+    max: 15152
+    median: 11919.9
+    p95: 14717.9
+    p99: 15138.3
+  Codes:
+    200: 93
+  Errors:
+    ECONNRESET: 297
+
+Report @ 18:17:06(-0300) 2019-04-24
+Elapsed time: 30 seconds
+  Scenarios launched:  500
+  Scenarios completed: 84
+  Requests completed:  84
+  RPS sent: 50.5
+  Request latency:
+    min: 14185.3
+    max: 24456.5
+    median: 15456.7
+    p95: 20379.4
+    p99: 23954.7
+  Codes:
+    200: 84
+  Errors:
+    ECONNRESET: 418
+
+Report @ 18:17:16(-0300) 2019-04-24
+Elapsed time: 40 seconds
+  Scenarios launched:  500
+  Scenarios completed: 88
+  Requests completed:  88
+  RPS sent: 50
+  Request latency:
+    min: 15266.5
+    max: 30035.2
+    median: 15659.6
+    p95: 23676.5
+    p99: 28454.7
+  Codes:
+    200: 88
+  Errors:
+    ECONNRESET: 412
+
+Report @ 18:17:26(-0300) 2019-04-24
+Elapsed time: 50 seconds
+  Scenarios launched:  500
+  Scenarios completed: 97
+  Requests completed:  97
+  RPS sent: 50.15
+  Request latency:
+    min: 14310.2
+    max: 44886.7
+    median: 14845.9
+    p95: 44779.3
+    p99: 44876.2
+  Codes:
+    200: 91
+    502: 6
+  Errors:
+    ECONNRESET: 404
+
+Report @ 18:17:36(-0300) 2019-04-24
+Elapsed time: 1 minute, 0 seconds
+  Scenarios launched:  500
+  Scenarios completed: 97
+  Requests completed:  97
+  RPS sent: 50.05
+  Request latency:
+    min: 14194.8
+    max: 55854
+    median: 14551.2
+    p95: 45749.3
+    p99: 52127.7
+  Codes:
+    200: 91
+    502: 6
+  Errors:
+    ECONNRESET: 402
+
+Started phase 1 (Pause), duration: undefineds @ 18:17:36(-0300) 2019-04-24
+Report @ 18:17:46(-0300) 2019-04-24
+Elapsed time: 1 minute, 10 seconds
+  Scenarios launched:  1
+  Scenarios completed: 316
+  Requests completed:  316
+  RPS sent: 0.1
+  Request latency:
+    min: 10776.1
+    max: 63051
+    median: 60003.9
+    p95: 60016.1
+    p99: 63042.9
+  Codes:
+    200: 125
+    502: 5
+    504: 186
+  Errors:
+    ECONNRESET: 1
+
+Report @ 18:17:56(-0300) 2019-04-24
+Elapsed time: 1 minute, 20 seconds
+  Scenarios launched:  0
+  Scenarios completed: 184
+  Requests completed:  184
+  RPS sent: NaN
+  Request latency:
+    min: 10529.2
+    max: 68995.8
+    median: 60006.4
+    p95: 66790.1
+    p99: 68589.1
+  Codes:
+    200: 82
+    504: 102
+
+Report @ 18:18:06(-0300) 2019-04-24
+Elapsed time: 1 minute, 30 seconds
+  Scenarios launched:  0
+  Scenarios completed: 11
+  Requests completed:  11
+  RPS sent: NaN
+  Request latency:
+    min: 60005.8
+    max: 69519.5
+    median: 69156.1
+    p95: 69518.3
+    p99: 69519.5
+  Codes:
+    200: 7
+    504: 4
+
+Report @ 18:18:16(-0300) 2019-04-24
+Elapsed time: 1 minute, 40 seconds
+  Scenarios launched:  0
+  Scenarios completed: 0
+  Requests completed:  0
+  RPS sent: NaN
+  Request latency:
+    min: NaN
+    max: NaN
+    median: NaN
+    p95: NaN
+    p99: NaN
+
+Report @ 18:18:16(-0300) 2019-04-24
+Elapsed time: 1 minute, 40 seconds
+  Scenarios launched:  0
+  Scenarios completed: 0
+  Requests completed:  0
+  RPS sent: NaN
+  Request latency:
+    min: NaN
+    max: NaN
+    median: NaN
+    p95: NaN
+    p99: NaN
+
+All virtual users finished
+Summary report @ 18:18:16(-0300) 2019-04-24
+  Scenarios launched:  3000
+  Scenarios completed: 1066
+  Requests completed:  1066
+  RPS sent: 29.86
+  Request latency:
+    min: 299.9
+    max: 69519.5
+    median: 15495.5
+    p95: 63040.1
+    p99: 67741.3
+  Scenario counts:
+    Intensive (/intensive): 3000 (100%)
+  Codes:
+    200: 757
+    502: 17
+    504: 292
+  Errors:
+    ECONNRESET: 1934
