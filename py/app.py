@@ -6,13 +6,6 @@ import math
 TIMEOUT = 5
 MAX_FIBONACCI = 1000  # Takes about 8 s in my config
 
-
-def is_primo(n):
-    for j in range(2, math.floor(math.sqrt(n))+1):
-        if n % j == 0:
-            return False
-    return True
-
 def fibonacci(n):
     resultado = 1
     for j in range(n):
@@ -34,7 +27,6 @@ def root():
 @app.route("/health")
 def health_check():
     return "Todo anda bien, Milhouse"
-
 
 @app.route("/proxy")
 def timeout():
