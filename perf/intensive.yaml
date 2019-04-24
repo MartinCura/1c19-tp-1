@@ -34,7 +34,7 @@ config:
   phases:
     - name: Plain
       duration: 60
-      arrivalRate: 5
+      arrivalRate: 50
     - name: Pause
       pause: 40
 

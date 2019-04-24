@@ -4,7 +4,7 @@ import time
 import math
 
 TIMEOUT = 5
-MAX_PRIMO = 5_000_000  # Takes about 8 s in my config
+MAX_FIBONACCI = 1000  # Takes about 8 s in my config
 
 
 def is_primo(n):
@@ -13,6 +13,13 @@ def is_primo(n):
             return False
     return True
 
+def fibonacci(n):
+    resultado = 1
+    for j in range(n):
+        resultado = resultado * ((1 + math.sqrt(5))/2)
+    resultado = resultado / math.sqrt(5) + 0.5
+
+    return math.floor(resultado)
 
 app = Flask(__name__)
 
@@ -34,15 +41,12 @@ def timeout():
     time.sleep(TIMEOUT)
     return "Oof"
 
-
 @app.route("/intensive")
 def intensive():
-    primos = []
-    for i in range(MAX_PRIMO):
-        if is_primo(i):
-            primos.append(i)
-    return "All done:\n{}".format(primos)
-
+    numeros = []
+    for i in range(MAX_FIBONACCI):
+        numeros.append(fibonacci(i))
+    return "All done:\n{}".format(numeros)
 
 if __name__ == "__main__":
     app.run()
