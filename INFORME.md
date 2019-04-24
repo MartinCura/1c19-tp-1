@@ -1,3 +1,8 @@
+# **TODO**
+Características de la workbench (y cambiar Limitaciones) 8GB de RAM, i3 7ma gen 7100U 2.4 GHz 1 core
+
+
+
 # Informe - TP1 (Arquitectura de Software, 75.73)
 
 
@@ -48,23 +53,23 @@ Como se trata de una consulta simple se espera que los resultados entre los dist
 
 **Resultados obtenidos:**
 
-#### Node
-![alt text][health-node-graph]
-![alt text][health-node-summary]
+| Node |
+| ---- | ---- |
+| ![alt text][health-node-graph] ![alt text][health-node-summary] |
 
-#### Gunicorn
-![alt text][health-gunicorn-graph]
-![alt text][health-gunicorn-summary]
+| Gunicorn |
+| ---- | ---- |
+| ![alt text][health-gunicorn-graph] ![alt text][health-gunicorn-summary] |
 
-#### Gunicorn replicado
-![alt text][health-gunicorn-rep-graph]
-![alt text][health-gunicorn-rep-summary]
+| Gunicorn replicado |
+| ---- | ---- |
+| ![alt text][health-gunicorn-rep-graph] ![alt text][health-gunicorn-rep-summary] |
 
-#### Gunicorn multiworker
-![alt text][health-gunicorn-mw-graph]
-![alt text][health-gunicorn-mw-summary]
+| Gunicorn multiworker |
+| ---- | ---- |
+| ![alt text][health-gunicorn-mw-graph] ![alt text][health-gunicorn-mw-summary] |
 
-Para el caso de healthcheck no hay sorpresas en ninguna de las configuraciones (Node, Gunicorn, Gunicorn multiworker) tiene problemas con la carga leve y todos los requests obtienen respuesta. Como mediana de latencia se tienen algunos milisegundos en todos los casos y nunca un request tarda siquiera 100 ms.
+Para el caso de healthcheck no hay sorpresas en ninguna de las configuraciones (Node, Gunicorn, Gunicorn multiworker) tiene problemas con la carga leve y todos los requests obtienen respuesta. Como mediana de latencia se tienen algunos milisegundos en todos los casos y nunca un request tarda siquiera 100 ms. También vemos que en todos los casos el uso de CPU no es significativo.
 
 
 ### Proxy/timeout
@@ -99,6 +104,7 @@ Por otro lado tenemos que todas las configuraciones de los servidores con Gunico
 
 Esto se debe a la forma en la que trabaja Gunicorn por defecto, con un único worker de manera secuencial. Los requests van llegando y deben esperar a que el resto termine, con lo que se genera un cuello de botella que desencadena en una gran cantidad de timeouts. Esto se comprueba ya que la configuración más simple de estas (Gunicorn) solo responde una pequeña cantidad de los pedidos, pero cuando aumentamos la cantidad de servidores (Gunicorn replicado) o la cantidad de workers (Gunicorn multiworker) se logra una mayor capacidad de respuesta.
 
+De igual manera esto no causa un gran uso
 
 
 
@@ -110,21 +116,21 @@ Aca se espera una diferencia importante entre el servidor de Node y el de Python
 
 **Resultados obtenidos:** [análisis] [gráficos]
 
-#### Node
-![alt text][intensive-node-graph]
-![alt text][intensive-node-summary]
+| Node |
+| ---- | ---- |
+| ![alt text][intensive-node-graph] ![alt text][intensive-node-summary] |
 
-#### Gunicorn
-![alt text][intensive-gunicorn-graph]
-![alt text][intensive-gunicorn-summary]
+| Gunicorn |
+| ---- | ---- |
+| ![alt text][intensive-gunicorn-graph] ![alt text][intensive-gunicorn-summary] |
 
-#### Gunicorn replicado
-![alt text][intensive-gunicorn-rep-graph]
-![alt text][intensive-gunicorn-rep-summary]
+| Gunicorn replicado |
+| ---- | ---- |
+| ![alt text][intensive-gunicorn-rep-graph] ![alt text][intensive-gunicorn-rep-summary] |
 
-#### Gunicorn multiworker
-![alt text][intensive-gunicorn-mw-graph]
-![alt text][intensive-gunicorn-mw-summary]
+| Gunicorn multiworker |
+| ---- | ---- |
+| ![alt text][intensive-gunicorn-mw-graph] ![alt text][intensive-gunicorn-mw-summary] |
 
 
 
