@@ -15,7 +15,7 @@ Los distintos casos que corremos son:
 * `node`: 1 servidor Express/Node
 * `gunicorn`: 1 servidor Gunicorn/Python con un worker
 * `gunicorn_replicated`: multiples servidores de Gunicorn
-* `gunicorn_multiworker`: 1 servidor Gunicorn con múltiples workers*
+* `gunicorn_multiworker`: adicionamos el caso de 1 servidor Gunicorn con múltiples workers*
 
 \*Cada *worker* puede ocuparse de resolver 1 request de forma casi independiente, dejando a otros libres para nuevos requests.
 
@@ -46,7 +46,25 @@ Este endpoint representa un *ping* sin contenido, un chequeo de vida que devuelv
 **Resultados esperados:**
 Como se trata de una consulta simple se espera que los resultados entre los distintos servidores no varien demasiado pero podrian exitir una pequeñas variacion en el servidor de python segun la cantidad de request porque como solo contiene un worker y debe resolverlo de manera secuencial puede que se genere un cuello de botella en alguno de los picos
 
-**Resultados obtenidos:** [análisis] [gráficos]
+**Resultados obtenidos:**
+
+#### Node
+![alt text][health-node-graph]
+![alt text][health-node-summary]
+
+#### Gunicorn
+![alt text][health-gunicorn-graph]
+![alt text][health-gunicorn-summary]
+
+#### Gunicorn replicado
+![alt text][health-gunicorn-rep-graph]
+![alt text][health-gunicorn-rep-summary]
+
+#### Gunicorn multiworker
+![alt text][health-gunicorn-mw-graph]
+![alt text][health-gunicorn-mw-summary]
+
+Para el caso de healthcheck no hay sorpresas en ninguna de las configuraciones (Node, Gunicorn, Gunicorn multiworker) tiene problemas con la carga leve y todos los requests obtienen respuesta. Como mediana de latencia se tienen algunos milisegundos en todos los casos y nunca un request tarda siquiera 100 ms.
 
 
 ### Proxy/timeout
@@ -57,6 +75,32 @@ En este caso esperamos que se note una diferencia entre el servidor de Python, e
 
 **Resultados obtenidos:** [análisis] [gráficos]
 
+| Node |
+| ---- | ---- |
+| ![alt text][proxy-node-graph] ![alt text][proxy-node-summary]
+
+| Gunicorn |
+| ---- | ---- |
+| ![alt text][proxy-gunicorn-graph] ![alt text][proxy-gunicorn-summary] |
+
+| Gunicorn replicado |
+| ---- | ---- |
+| ![alt text][proxy-gunicorn-rep-graph] ![alt text][proxy-gunicorn-rep-summary] |
+
+| Gunicorn multiworker |
+| ---- | ---- |
+| ![alt text][proxy-gunicorn-mw-graph] ![alt text][proxy-gunicorn-mw-summary] |
+
+Para este endpoint solo hemos utilizado un escenario plano con una significativa cantidad de requests. Lo que buscamos es ver cómo cada servicio es afectado por recibir esta carga donde cada pedido ocupa un thread.
+
+A partir de los resultados podemos constatar que el servidor de Node tiene la capacidad de responder a la gran cantidad de requests enviados. Vemos en nuestras pruebas que logra contestar cada request con código de exito 200.
+
+Por otro lado tenemos que todas las configuraciones de los servidores con Gunicorn solo puedieron responder una porción de los pedidos (200), y para el resto se obtuvo *timeout* (504).
+
+Esto se debe a la forma en la que trabaja Gunicorn por defecto, con un único worker de manera secuencial. Los requests van llegando y deben esperar a que el resto termine, con lo que se genera un cuello de botella que desencadena en una gran cantidad de timeouts. Esto se comprueba ya que la configuración más simple de estas (Gunicorn) solo responde una pequeña cantidad de los pedidos, pero cuando aumentamos la cantidad de servidores (Gunicorn replicado) o la cantidad de workers (Gunicorn multiworker) se logra una mayor capacidad de respuesta.
+
+
+
 
 ### Intensive
 Este endpoint resuelve ciertas operaciones matemáticas antes de devolver, de forma que por dicho tiempo esté realizando muchos cómputos (con uso intenso de poca memoria) y por lo tanto más "CPU". Como implementación de esto en cada request se calculan (de forma poco optimizada) todos los números primos hasta cierto número bastante alto (se experimenta con un valor final en el orden de los millones ya que eso produce tiempos de respuesta similares al timeout cuando se solicitan de forma aislada).
@@ -65,3 +109,51 @@ Este endpoint resuelve ciertas operaciones matemáticas antes de devolver, de fo
 Aca se espera una diferencia importante entre el servidor de Node y el de Python en base a quién pueda resolver los mismos cálculos en menor tiempo pero todavía se tendrá como factor muy importante el número de requests que cada servidor pueda soportar de forma simultánea. Es por esto que se puede esperar que el servicio basado en varios servidores de Python (`gunicorn_replicated`) salga mejor parado que los demás (la diferencia sería muy significativa si estos además se corrieran de forma distribuida).
 
 **Resultados obtenidos:** [análisis] [gráficos]
+
+#### Node
+![alt text][intensive-node-graph]
+![alt text][intensive-node-summary]
+
+#### Gunicorn
+![alt text][intensive-gunicorn-graph]
+![alt text][intensive-gunicorn-summary]
+
+#### Gunicorn replicado
+![alt text][intensive-gunicorn-rep-graph]
+![alt text][intensive-gunicorn-rep-summary]
+
+#### Gunicorn multiworker
+![alt text][intensive-gunicorn-mw-graph]
+![alt text][intensive-gunicorn-mw-summary]
+
+
+
+
+
+
+[health-node-graph]: images/node_health.png "health-node-graph"
+[health-node-summary]: images/node_health_summary.png "health-node-summary"
+[health-gunicorn-graph]: images/gunicorn_health.png "health-gunicorn-graph"
+[health-gunicorn-summary]: images/gunicorn_health_summary.png "health-gunicorn-summary"
+[health-gunicorn-rep-graph]: images/gunicorn_replicated_health.png "health-gunicorn-rep-graph"
+[health-gunicorn-rep-summary]: images/gunicorn_replicated_health_summary.png "health-gunicorn-rep-summary"
+[health-gunicorn-mw-graph]: images/gunicorn_multiworker_health.png "health-gunicorn-mw-graph"
+[health-gunicorn-mw-summary]: images/gunicorn_multiworker_health_summary.png "health-gunicorn-mw-summary"
+
+[proxy-node-graph]: images/node_proxy.png "proxy-node-graph"
+[proxy-node-summary]: images/node_proxy_summary.png "proxy-node-summary"
+[proxy-gunicorn-graph]: images/gunicorn_proxy.png "proxy-gunicorn-graph"
+[proxy-gunicorn-summary]: images/gunicorn_proxy_summary.png "proxy-gunicorn-summary"
+[proxy-gunicorn-rep-graph]: images/gunicorn_replicated_proxy.png "proxy-gunicorn-rep-graph"
+[proxy-gunicorn-rep-summary]: images/gunicorn_replicated_proxy_summary.png "proxy-gunicorn-rep-summary"
+[proxy-gunicorn-mw-graph]: images/gunicorn_multiworker_proxy.png "proxy-gunicorn-mw-graph"
+[proxy-gunicorn-mw-summary]: images/gunicorn_multiworker_proxy_summary.png "proxy-gunicorn-mw-summary"
+
+[intensive-node-graph]: images/node_intensive.png "intensive-node-graph"
+[intensive-node-summary]: images/node_intensive_summary.png "intensive-node-summary"
+[intensive-gunicorn-graph]: images/gunicorn_intensive.png "intensive-gunicorn-graph"
+[intensive-gunicorn-summary]: images/gunicorn_intensive_summary.png "intensive-gunicorn-summary"
+[intensive-gunicorn-rep-graph]: images/gunicorn_replicated_intensive.png "intensive-gunicorn-rep-graph"
+[intensive-gunicorn-rep-summary]: images/gunicorn_replicated_intensive_summary.png "intensive-gunicorn-rep-summary"
+[intensive-gunicorn-mw-graph]: images/gunicorn_multiworker_intensive.png "intensive-gunicorn-mw-graph"
+[intensive-gunicorn-mw-summary]: images/gunicorn_multiworker_intensive_summary.png "intensive-gunicorn-mw-summary"
