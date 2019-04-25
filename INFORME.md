@@ -64,22 +64,22 @@ Para el caso de healthcheck no hay sorpresas: ninguna de las configuraciones (No
 Como mediana de latencia se tienen algunos milisegundos en todos los casos y nunca un request tarda siquiera 100 ms. También vemos que en todos los casos el uso de CPU no es significativo.
 
 | Node |
-| ---- | ---- |
+|:----:|
 | <p style="text-align: center;">![alt text][health-node-graph]</p> |
 | <p style="text-align: center;">![alt text][health-node-summary]</p> |
 
 | Gunicorn |
-| ---- | ---- |
+|:----:|
 | <p style="text-align: center;">![alt text][health-gunicorn-graph]</p> |
 | <p style="text-align: center;">![alt text][health-gunicorn-summary]</p> |
 
 | Gunicorn replicado |
-| ---- | ---- |
+|:----:|
 | <p style="text-align: center;">![alt text][health-gunicorn-rep-graph]</p> |
 | <p style="text-align: center;">![alt text][health-gunicorn-rep-summary]</p> |
 
 | Gunicorn multiworker |
-| ---- | ---- |
+|:----:|
 | <p style="text-align: center;">![alt text][health-gunicorn-mw-graph]</p> |
 | <p style="text-align: center;">![alt text][health-gunicorn-mw-summary]</p> |
 
@@ -102,22 +102,22 @@ Esto se debe a la forma en la que trabaja Gunicorn por defecto, con un único wo
 De igual manera esto no causa un gran uso........
 
 | Node |
-| ---- | ---- |
+|:----:|
 | <p style="text-align: center;">![alt text][proxy-node-graph]</p> |
 | <p style="text-align: center;">![alt text][proxy-node-summary]</p> |
 
 | Gunicorn |
-| ---- | ---- |
+|:----:|
 | <p style="text-align: center;">![alt text][proxy-gunicorn-graph]</p> |
 | <p style="text-align: center;">![alt text][proxy-gunicorn-summary]</p> |
 
 | Gunicorn replicado |
-| ---- | ---- |
+|:----:|
 | <p style="text-align: center;">![alt text][proxy-gunicorn-rep-graph]</p> |
 | <p style="text-align: center;">![alt text][proxy-gunicorn-rep-summary]</p> |
 
 | Gunicorn multiworker |
-| ---- | ---- |
+|:----:|
 | <p style="text-align: center;">![alt text][proxy-gunicorn-mw-graph]</p> |
 | <p style="text-align: center;">![alt text][proxy-gunicorn-mw-summary]</p> |
 
@@ -132,20 +132,22 @@ Aca se espera una diferencia importante entre el servidor de Node y el de Python
 En este caso, a diferencia de los demas, el servidor de Python (`gunicorn`) funcionó mejor que el de Node ya que Python es mucho mejor para resolver operaciones matemáticas. Se observa que no hubo un gran uso de CPU por parte del servidor Python (un poco mas del 1%) mientras que el servidor Node tuvo un uso del 11%, si bien esto no es un gran uso de CPU, si lo es en comparación al de Python y al de los otros escenarios. Asimismo, se observa que también hay diferencia entre la cantidad de request finalizadas correctamente entre el servidor Python y el servidor Node, con ventaja del servidor Python. Los servidores de Python replicados (`gunicorn_replicated`) y el servidor de Python Multiworker (`gunicorn_multiworker`) tuvieron una gran mejoria en la cantidad de request finalizadas correctamente, ya que no habia un unico hilo de ejecución. El servidor de Python Multiworker tuvo un mayor consumo de CPU, lo cual era lo esperado ya que era un unico servidor, pero bastante menor al del servidor Node. Y, por ultimo, los servidores de Python replicados tuvieron menor consumo de CPU que el de Python ya que cada uno tenia que procesar una menor cantidad de requests. Los servidores replicados, al no tener tanto procesamiento, a diferencia del multiworker, respondian mas rapido, provocando que las requests que recibian no fallaran por timeout.
 
 | Node |
-| ---- | ---- |
+|:----:|
 | <p style="text-align: center;">![alt text][intensive-node-graph]</p> |
 | <p style="text-align: center;">![alt text][intensive-node-summary]</p> |
 
-##### Gunicorn
-<p style="text-align: center;">![alt text][intensive-gunicorn-graph]</p>
-<p style="text-align: center;">![alt text][intensive-gunicorn-summary]</p>
+| Gunicorn |
+|:----:|
+| ![alt text][intensive-gunicorn-graph] |
+| ![alt text][intensive-gunicorn-summary] |
 
 | Gunicorn replicado |
+| ---- |
 | <p style="text-align: center;">![alt text][intensive-gunicorn-rep-graph]</p> |
 | <p style="text-align: center;">![alt text][intensive-gunicorn-rep-summary]</p> |
 
 | Gunicorn multiworker |
-| ---- |
+|:----:|
 | <p style="text-align: center;">![alt text][intensive-gunicorn-mw-graph]</p> |
 | <p style="text-align: center;">![alt text][intensive-gunicorn-mw-summary]</p> |
 
