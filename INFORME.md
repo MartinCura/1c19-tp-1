@@ -88,19 +88,21 @@ Como mediana de latencia se tienen algunos milisegundos en todos los casos y nun
 
 
 ### Proxy/timeout
-Este endpoint implica la espera de un tiempo determinado antes de responder. Implica mínimo costo computacional para el servidor pero todavía teniendo un tiempo de respuesta no inmediato, con lo que sería como un *ping* con *delay*. Puede representar que el valor buscado se tiene que buscar en otro servicio (que en este ejemplo siempre tardaría lo mismo en responder) antes de devolverlo, pero sin implicar mucho uso de recursos para el servidor en sí.
+Este endpoint implica la espera de un tiempo determinado antes de responder. Esto genera un mínimo costo computacional para el servidor teniendo un tiempo de respuesta no inmediato, comportandose asi, como un *ping* con *delay*. Podria representar una subconsulta a otro servicio para responder la consulta, sin implicar mucho uso de recursos para el servidor en sí (para este ejemplo, la subconsulta siempre tardaría lo mismo).
 
 #### Resultados esperados
-En este caso esperamos que se note una diferencia entre el servidor de Python, el de Node y el de Python replicado. En el de Python simple deberia generarse un cuello de botella que se acentuaria notariamente en los picos de requests generados, lo cual en las múltiples intancias de Python se vería mas atenuado pero aun asi esperando algunos atrasos en las respuestas. Por su lado, para el de Node esperamos...............................
+En este caso esperamos notar una diferencia entre los servidores de Python (simple, replicado y multiworker) y el servidor de Node . Por la forma secuencial de trabajo,simple deberia generarse un cuello de botella en el servidor de Python el cual se acentuaria notariamente si exitiensen picos de requests generados. Este comportamiento se deberia manterer tanto en el replicado como en el multiworker cuando la cantidad de request tan grande, que incluso repartiendose la carga en los workers o en las replicas no sea capas de procesarlas. De esta manera, si bien en el cuello de botella se vea atenuado por ser capaz de atentender mas consultas en paralelo, todos los servidores de python terminarian colapsados antes un numero significativo de request. Por otro lado, el servidor de node gracias a su implementacion, no deberia tener este problema. Se espera que el servidor de node pueda responder todas las consultas sin grandes problemas y en uno tiempos similares.
 
 #### Resultados obtenidos
 Para este endpoint solo hemos utilizado un escenario plano con una significativa cantidad de requests. Lo que buscamos es ver cómo cada servicio es afectado por recibir esta carga donde cada pedido ocupa un thread.
 
-A partir de los resultados podemos constatar que el servidor de Node tiene la capacidad de responder a la gran cantidad de requests enviados. Vemos en nuestras pruebas que logra contestar cada request con código de exito 200.
+A partir de los resultados podemos constatar que el servidor de Node tiene la capacidad de responder la totalidad de requests enviados. Vemos en nuestras pruebas que logra contestar cada request con código de exito 200. Ademas comprobamos que los tiempos de respuesta son extremadamente similares, teniendo la media muy proxima al maximo en el tiempo de respuesta.
 
 Por otro lado tenemos que todas las configuraciones de los servidores con Gunicorn solo puedieron responder una porción de los pedidos (200), y para el resto se obtuvo *timeout* (504).
+En el servidor simple solo se llegan a responder un 5% de manera correcta, mientras que en el replicado y multiworker la cantidad aumenta a aproximadamente 17% y 23% respectivamente, lo que desmuestra que el cuello de botella se atenua pero no es capaz de evitarse.
 
 Esto se debe a la forma en la que trabaja Gunicorn por defecto, con un único worker de manera secuencial. Los requests van llegando y deben esperar a que el resto termine, con lo que se genera un cuello de botella que desencadena en una gran cantidad de timeouts. Esto se comprueba ya que la configuración más simple de estas (Gunicorn) solo responde una pequeña cantidad de los pedidos, pero cuando aumentamos la cantidad de servidores (Gunicorn replicado) o la cantidad de workers (Gunicorn multiworker) se logra una mayor capacidad de respuesta.
+
 
 De igual manera esto no causa un gran uso........
 
