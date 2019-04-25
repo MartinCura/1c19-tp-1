@@ -1,3 +1,10 @@
+# <p style="text-align: center;">[=> Informe <=](INFORME.md)</p>
+
+
+
+-----
+ A continuación la consigna original:
+
 # Punto de partida para el TP 1 de Arquitectura de Software (75.73) del 1er cuatrimestre de 2019
 
 > **La fecha de entrega para el informe y el código es el jueves 25/04** :bangbang:

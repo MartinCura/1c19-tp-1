@@ -19,6 +19,7 @@ Como tecnologías bajo carga se tienen por un lado Gunicorn/Flask (Python) y por
 
 Para generar la carga usamos Artillery y para el monitoreo y visualización de métricas aprovechamos el stack sugerido de cAdvisor + StatsD + Graphite + Grafana.
 
+
 ## Casos de prueba
 Los distintos casos que corremos son:
 
@@ -31,7 +32,7 @@ Los distintos casos que corremos son:
 
 
 ## Escenarios
-En los casos pesados testeamos simplemente con un perfil plano de requests constantes. Para el caso particular de healthcheck, al tener poco costo computacional y de memoria, creamos un escenario más complejo para ver cómo reaccionan los servicios a los cambios. El escenario a simular para dicho caso es el siguiente:
+En los casos pesados testeamos simplemente con un perfil plano de requests constantes. Para el caso particular de healthcheck, al tener mínimo costo computacional y de memoria, creamos un escenario más complejo para ver cómo reaccionan los servicios a los cambios. El escenario a simular para dicho caso es el siguiente:
 
 1. Plano con baja-mediana cantidad de requests
 2. Pico de requests, aumentando 5 veces su valor inicial
@@ -43,8 +44,10 @@ En los casos pesados testeamos simplemente con un perfil plano de requests const
 ## Limitaciones
 No se tuvo tiempo para correr estas pruebas en distintas máquinas (separando el testbench de las herramientas de carga y monitoreo), lo cual es poco pragmático para casos reales ya que se introduce mucho ruido en los resultados observados. También hubiera sido interesante correr estas partes de forma remota, para incluir el efecto de la red en las pruebas.
 
+
 ## Workbench
 Para este trabajo se utilizó una laptop con procesador Intel i3 7100U (7ma gen) 2.4 GHZ Dual Core, con 8 GB de RAM y disco SSD.
+
 
 ## Resultados esperados
 A nivel general se espera que el servidor de Node supere ampliamente a todos los casos de Python, por estar mucho más orientado a estos usos. Cuando se maneja gran numero de requests que requieran mucho tiempo o mucho procesamiento se espera que los resultados muestren grandes diferencias.
@@ -123,13 +126,17 @@ De igual manera esto no causa un gran uso........
 
 
 ### Intensive
-Este endpoint resuelve ciertas operaciones matemáticas antes de devolver, de forma que por dicho tiempo esté realizando muchos cómputos (con uso intenso de poca memoria) y por lo tanto más "CPU". Como implementación de esto en cada request se calculan una cierta cantidad de numeros pertenecientes a la secuencia de fibonacci a través de la formula exacta, por lo tanto se hacen ciertas cuentas matematicas (de forma poco optimizada) para obtener cada uno de estos numeros (se experimenta con un valor final en el orden de los millones ya que eso produce tiempos de respuesta similares al timeout cuando se solicitan de forma aislada).
+Este endpoint resuelve ciertas operaciones matemáticas antes de devolver, de forma que por dicho tiempo esté realizando muchos cómputos (con uso intenso de poca memoria) y por lo tanto más del recurso que llamamos "CPU". Como implementación de esto en cada request se calculan una cierta cantidad de números pertenecientes a la secuencia de Fibonacci a través de la fórmula exacta, por lo tanto se hacen ciertas cuentas matematicas (de forma poco optimizada) para obtener cada uno de estos números (se experimenta con un valor final en el orden de los millones ya que eso produce tiempos de respuesta similares al *timeout* cuando se solicitan de forma aislada).
 
 #### Resultados esperados
-Aca se espera una diferencia importante entre el servidor de Node y el de Python en base a quién pueda resolver los mismos cálculos en menor tiempo pero todavía se tendrá como factor muy importante el número de requests que cada servidor pueda soportar de forma simultánea. Es por esto que se puede esperar que el servicio basado en varios servidores de Python (`gunicorn_replicated`) salga mejor parado que los demás (la diferencia sería muy significativa si estos además se corrieran de forma distribuida).
+Acá se espera una diferencia importante entre el servidor de Node y el de Python en base a quién pueda resolver los mismos cálculos en menor tiempo pero todavía se tendrá como factor muy importante el número de requests que cada servidor pueda soportar de forma simultánea. Es por esto que se puede esperar que el servicio basado en varios servidores de Python (`gunicorn_replicated`) salga mejor parado que los demás (la diferencia sería muy significativa si estos además se corrieran de forma distribuida).
 
 #### Resultados obtenidos
-En este caso, a diferencia de los demas, el servidor de Python (`gunicorn`) funcionó mejor que el de Node ya que Python es mucho mejor para resolver operaciones matemáticas. Se observa que no hubo un gran uso de CPU por parte del servidor Python (un poco mas del 1%) mientras que el servidor Node tuvo un uso del 11%, si bien esto no es un gran uso de CPU, si lo es en comparación al de Python y al de los otros escenarios. Asimismo, se observa que también hay diferencia entre la cantidad de request finalizadas correctamente entre el servidor Python y el servidor Node, con ventaja del servidor Python. Los servidores de Python replicados (`gunicorn_replicated`) y el servidor de Python Multiworker (`gunicorn_multiworker`) tuvieron una gran mejoria en la cantidad de request finalizadas correctamente, ya que no habia un unico hilo de ejecución. El servidor de Python Multiworker tuvo un mayor consumo de CPU, lo cual era lo esperado ya que era un unico servidor, pero bastante menor al del servidor Node. Y, por ultimo, los servidores de Python replicados tuvieron menor consumo de CPU que el de Python ya que cada uno tenia que procesar una menor cantidad de requests. Los servidores replicados, al no tener tanto procesamiento, a diferencia del multiworker, respondian mas rapido, provocando que las requests que recibian no fallaran por timeout.
+En este caso, a diferencia de los demas, el servidor de Python (`gunicorn`) funcionó mejor que el de Node ya que Python es mucho mejor para resolver operaciones matemáticas. Se observa que no hubo un gran uso de CPU por parte del servidor Python (un poco mas del 1 %) mientras que el servidor Node tuvo un uso del 11 %; si bien esto no es un gran uso de CPU, sí lo es en comparación al de Python y al de los otros casos.
+
+Asimismo, se observa que también hay diferencia entre la cantidad de request finalizadas correctamente entre el servidor Gunicorn y el servidor Node, con ventaja del servidor basado en Python. La versión de servidores replicados (`gunicorn_replicated`, siempre con el *load balancer* de Nginx frente) y la multiworker (`gunicorn_multiworker`) tuvieron una gran mejoria en la cantidad de requests finalizadas correctamente, ya que no había un único hilo de ejecución.
+
+El servidor de Gunicorn multiworker tuvo un mayor consumo de CPU, lo cual era lo esperado ya que era un único servidor, pero aun aśi bastante menor al consumo de recursos por parte del servidor Node. Por último, los servidores de Python replicados tuvieron menor consumo de CPU que el de Python individual ya que la carga se distribuía entre ellos y cada uno tenia una menor cantidad de requests que procesar. Los servidores replicados, al no tener tanto procesamiento a diferencia del multiworker, respondieron más rápido, provocando que los requests que recibían no fallaran por *timeout*.
 
 | Node |
 |:----:|
