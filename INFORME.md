@@ -1,16 +1,10 @@
-# **TODO**
-Características de la workbench (y cambiar Limitaciones) 8GB de RAM, i3 7ma gen 7100U 2.4 GHz 1 core
-
-
-
 # Informe - TP1 (Arquitectura de Software, 75.73)
 
-- [**TODO**](#todo)
-- [Informe - TP1 (Arquitectura de Software, 75.73)](#informe---tp1-arquitectura-de-software-7573)
   - [Introducción](#introducci%C3%B3n)
   - [Casos de prueba](#casos-de-prueba)
   - [Escenario común](#escenario-com%C3%BAn)
   - [Limitaciones](#limitaciones)
+  - [Workbench](#workbench)
   - [Resultados esperados](#resultados-esperados)
   - [Endpoints y resultados obtenidos](#endpoints-y-resultados-obtenidos)
     - [Health](#health)
@@ -24,7 +18,6 @@ En este trabajo se comparan algunas tecnologías mediante el uso de varias herra
 Como tecnologías bajo carga se tienen por un lado Gunicorn/Flask (Python) y por el otro Express/Node (JavaScript), en cada cual codeamos el mismo servicio HTTP con 3 endpoints (uno de ping, otro de timeout, y otro de cómputo más intenso). Ante estos servidores se utiliza Nginx como load balancer y se levanta cada contenedor mediante docker-compose.
 
 Para generar la carga usamos Artillery y para el monitoreo y visualización de métricas aprovechamos el stack sugerido de cAdvisor + StatsD + Graphite + Grafana.
-
 
 ## Casos de prueba
 Los distintos casos que corremos son:
@@ -48,8 +41,11 @@ Para cada caso y endpoint testeados, simulamos el siguiente escenario de request
 
 
 ## Limitaciones
-No se tuvo tiempo para correr estas pruebas en distintas máquinas (separando el testbench de las herramientas de carga y monitoreo), lo cual es poco pragmático para casos reales ya que se introduce mucho ruido en los resultados observados. Tampoco nos preocupamos por definir y documentar claramente el testbench (como el hardware) en el que se corren los servicios ya que no es el propósito de este trabajo la medición objetiva de los servidores sino realizar comparaciones a grandes rasgos y experimentar con las herramientas propuestas.
+No se tuvo tiempo para correr estas pruebas en distintas máquinas (separando el testbench de las herramientas de carga y monitoreo), lo cual es poco pragmático para casos reales ya que se introduce mucho ruido en los resultados observados. 
 
+## Workbench
+
+Para este trabajo se utilizó una laptop con procesador Intel i3 7ma gen 7100U 2.4 GHZ Dual Core, con 8 GB de RAM y disco SSD.
 
 ## Resultados esperados
 A nivel general se espera que el servidor de Node supere ampliamente a todos los casos de Python, por estar mucho más orientado a estos usos. Cuando se maneja gran numero de requests que requieran mucho tiempo o mucho procesamiento se espera que los resultados muestren grandes diferencias.
