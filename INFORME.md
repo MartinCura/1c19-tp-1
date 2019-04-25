@@ -25,7 +25,7 @@ Los distintos casos que corremos son:
 
 * `node`: 1 servidor Express/Node
 * `gunicorn`: 1 servidor Gunicorn/Python con un worker
-* `gunicorn_replicated`: multiples servidores de Gunicorn
+* `gunicorn_replicated`: múltiples servidores de Gunicorn
 * `gunicorn_multiworker`: adicionamos el caso de 1 servidor Gunicorn con múltiples workers*
 
 \*Cada *worker* puede ocuparse de resolver 1 request de forma casi independiente, dejando a otros libres para nuevos requests.
@@ -41,12 +41,12 @@ En los casos pesados testeamos simplemente con un perfil plano de requests const
 5. Pico de requests, aumentando 10 veces su valor
 
 
-## Limitaciones
-No se tuvo tiempo para correr estas pruebas en distintas máquinas (separando el testbench de las herramientas de carga y monitoreo), lo cual es poco pragmático para casos reales ya que se introduce mucho ruido en los resultados observados. También hubiera sido interesante correr estas partes de forma remota, para incluir el efecto de la red en las pruebas.
-
-
 ## Workbench
 Para este trabajo se utilizó una laptop con procesador Intel i3 7100U (7ma gen) 2.4 GHZ Dual Core, con 8 GB de RAM y disco SSD.
+
+
+## Limitaciones
+No se tuvo tiempo para correr estas pruebas en distintas máquinas (separando el testbench de las herramientas de carga y monitoreo), lo cual es poco pragmático para casos reales ya que se introduce mucho ruido en los resultados observados. También hubiera sido interesante correr estas partes de forma remota, para incluir el efecto de la red en las pruebas.
 
 
 ## Resultados esperados
@@ -59,12 +59,12 @@ A nivel general se espera que el servidor de Node supere ampliamente a todos los
 Este endpoint representa un *ping* sin contenido, un chequeo de vida que devuelve inmediatamente sin ningún cómputo ni acceso a persistencia. Es el request más simple posible que alcance al comportamiento del servidor.
 
 #### Resultados esperados
-Como se trata de una consulta simple se espera que los resultados entre los distintos servidores no varien demasiado pero podrian exitir una pequeñas variacion en el servidor de python segun la cantidad de request porque como solo contiene un worker y debe resolverlo de manera secuencial puede que se genere un cuello de botella en alguno de los picos.
+Como se trata de una consulta simple se espera que los resultados entre los distintos servidores no varíen demasiado pero podrían exitir una pequeñas variación en el servidor de Python según la cantidad de request porque como solo contiene un worker y debe resolverlo de manera secuencial puede que se genere un cuello de botella en alguno de los picos.
 
 #### Resultados obtenidos
-Para el caso de healthcheck no hay sorpresas: ninguna de las configuraciones (Node, Gunicorn, Gunicorn multiworker) tiene problemas con la carga leve y todos los requests obtienen respuesta. Esto es esperable al ser tan liviano el endpoint, aunque seguramente empezaríamos a ver problemas si el tráfico creciera de forma insostenible.
+Para el caso de healthcheck no hay sorpresas: ninguna de las configuraciones (`node`, `gunicorn`, `gunicorn_replicated`, `gunicorn_multiworker`) tiene problemas con la carga leve y todos los requests obtienen respuesta. Esto es esperable al ser tan liviano el endpoint, aunque seguramente empezaríamos a ver problemas si el tráfico creciera de forma insostenible.
 
-Como mediana de latencia se tienen algunos milisegundos en todos los casos y nunca un request tarda siquiera 100 ms. También vemos que en todos los casos el uso de CPU no es significativo.
+Como mediana de latencia en todos los casos se obtienen valores de algunos milisegundos, y nunca un request tarda siquiera 100 ms. También podemos ver que en la mayoría de los casos el máximo se produce al comienzo de la conexión, lo que era esperable. Además, confirmamos que el uso de CPU no fue significativo.
 
 | Node |
 |:----:|
@@ -88,23 +88,20 @@ Como mediana de latencia se tienen algunos milisegundos en todos los casos y nun
 
 
 ### Proxy/timeout
-Este endpoint implica la espera de un tiempo determinado antes de responder. Esto genera un mínimo costo computacional para el servidor teniendo un tiempo de respuesta no inmediato, comportandose asi, como un *ping* con *delay*. Podria representar una subconsulta a otro servicio para responder la consulta, sin implicar mucho uso de recursos para el servidor en sí (para este ejemplo, la subconsulta siempre tardaría lo mismo).
+Este endpoint implica la espera de un tiempo determinado antes de responder. Esto genera un mínimo costo computacional para el servidor teniendo un tiempo de respuesta no inmediato, comportándose entonces "como un *ping* con *delay*". Podría representar una subconsulta a otro servicio para responder la original, sin implicar mucho uso de recursos para el servidor en sí (para este ejemplo, la subconsulta simulada siempre tardaría lo mismo).
 
 #### Resultados esperados
-En este caso esperamos notar una diferencia entre los servidores de Python (simple, replicado y multiworker) y el servidor de Node . Por la forma secuencial de trabajo,simple deberia generarse un cuello de botella en el servidor de Python el cual se acentuaria notariamente si exitiensen picos de requests generados. Este comportamiento se deberia manterer tanto en el replicado como en el multiworker cuando la cantidad de request tan grande, que incluso repartiendose la carga en los workers o en las replicas no sea capas de procesarlas. De esta manera, si bien en el cuello de botella se vea atenuado por ser capaz de atentender mas consultas en paralelo, todos los servidores de python terminarian colapsados antes un numero significativo de request. Por otro lado, el servidor de node gracias a su implementacion, no deberia tener este problema. Se espera que el servidor de node pueda responder todas las consultas sin grandes problemas y en uno tiempos similares.
+En este caso esperamos notar una diferencia entre los servidores de Python (simple, replicado y multiworker) y el servidor de Node. Por la forma secuencial de trabajo debería generarse un cuello de botella en el servidor de Python, el cual se acentuaría notoriamente si exitiesen picos de requests generados. Este comportamiento se debería manterer tanto en el replicado como en el multiworker cuando la cantidad de requests es tan grande que incluso repartiéndose la carga en los workers o en las réplicas no sea capas de procesarlas. De esta manera, si bien en el cuello de botella se vea atenuado por ser capaz de atender más consultas en paralelo, todos los servidores Gunicorn terminarían colapsados ante un número significativo de requests. Por otro lado, el servidor Node, gracias a su implementación, no debería tener este problema (o debería ser mucho mejor para atenuarlo). Se espera que este pueda responder todas las consultas sin grandes problemas y en tiempos similares.
 
 #### Resultados obtenidos
 Para este endpoint solo hemos utilizado un escenario plano con una significativa cantidad de requests. Lo que buscamos es ver cómo cada servicio es afectado por recibir esta carga donde cada pedido ocupa un thread.
 
-A partir de los resultados podemos constatar que el servidor de Node tiene la capacidad de responder la totalidad de requests enviados. Vemos en nuestras pruebas que logra contestar cada request con código de exito 200. Ademas comprobamos que los tiempos de respuesta son extremadamente similares, teniendo la media muy proxima al maximo en el tiempo de respuesta.
+A partir de los resultados podemos constatar que el servidor de Node tiene la capacidad de responder la totalidad de requests enviados. Vemos en nuestras pruebas que logra contestar cada request con código de éxito 200. Además comprobamos que los tiempos de respuesta son extremadamente similares, teniendo la media muy próxima al máximo en el tiempo de respuesta.
 
-Por otro lado tenemos que todas las configuraciones de los servidores con Gunicorn solo puedieron responder una porción de los pedidos (200), y para el resto se obtuvo *timeout* (504).
-En el servidor simple solo se llegan a responder un 5% de manera correcta, mientras que en el replicado y multiworker la cantidad aumenta a aproximadamente 17% y 23% respectivamente, lo que desmuestra que el cuello de botella se atenua pero no es capaz de evitarse.
+Por otro lado tenemos que todas las configuraciones de los servidores con Gunicorn solo pudieron responder una porción de los pedidos (200), y para el resto se obtuvo *timeout* (504).
+En el servidor simple solo se llega a responder un 5 % de manera correcta, mientras que en el replicado y multiworker la cantidad aumenta a aproximadamente 17 % y 23 % respectivamente, lo que demuestra que el cuello de botella se atenúa pero no es capaz de evitarse completamente.
 
-Esto se debe a la forma en la que trabaja Gunicorn por defecto, con un único worker de manera secuencial. Los requests van llegando y deben esperar a que el resto termine, con lo que se genera un cuello de botella que desencadena en una gran cantidad de timeouts. Esto se comprueba ya que la configuración más simple de estas (Gunicorn) solo responde una pequeña cantidad de los pedidos, pero cuando aumentamos la cantidad de servidores (Gunicorn replicado) o la cantidad de workers (Gunicorn multiworker) se logra una mayor capacidad de respuesta.
-
-
-De igual manera esto no causa un gran uso........
+Esto se debe a la forma en la que trabaja Gunicorn por defecto, con un único worker atendiendo requests de manera secuencial, es decir, el único thread encargado de resolver un request no atiende otro hasta terminar con lo que el resto debe esperar. Los requests van llegando y quedan esperando a que los anteriores terminen, con lo que se genera un cuello de botella que desencadena en una gran cantidad de *timeouts*. Esto se comprueba al ver que la configuración más simple de estas (`gunicorn`) solo responde una pequeña porción de los pedidos, pero cuando aumentamos la cantidad de servidores (`gunicorn_replicated`) o la cantidad de workers (`gunicorn_multiworker`) se logra una mejor capacidad de respuesta.
 
 | Node |
 |:----:|
@@ -128,17 +125,17 @@ De igual manera esto no causa un gran uso........
 
 
 ### Intensive
-Este endpoint resuelve ciertas operaciones matemáticas antes de devolver, de forma que por dicho tiempo esté realizando muchos cómputos (con uso intenso de poca memoria) y por lo tanto más del recurso que llamamos "CPU". Como implementación de esto en cada request se calculan una cierta cantidad de números pertenecientes a la secuencia de Fibonacci a través de la fórmula exacta, por lo tanto se hacen ciertas cuentas matematicas (de forma poco optimizada) para obtener cada uno de estos números (se experimenta con un valor final en el orden de los millones ya que eso produce tiempos de respuesta similares al *timeout* cuando se solicitan de forma aislada).
+Este endpoint resuelve ciertas operaciones matemáticas antes de devolver, de forma que durante este tiempo estará realizando muchos cómputos (con uso intenso de poca memoria) y por lo tanto más del recurso que llamamos "CPU". Como implementación de esto, en cada request se calcula una cierta cantidad de números pertenecientes a la secuencia de Fibonacci (a través de la fórmula exacta). Se experimenta con valores tales que en el workbench se produzcan tiempos de respuesta similares al *timeout* del endpoint anterior cuando se solicitan de forma aislada.
 
 #### Resultados esperados
-Acá se espera una diferencia importante entre el servidor de Node y el de Python en base a quién pueda resolver los mismos cálculos en menor tiempo pero todavía se tendrá como factor muy importante el número de requests que cada servidor pueda soportar de forma simultánea. Es por esto que se puede esperar que el servicio basado en varios servidores de Python (`gunicorn_replicated`) salga mejor parado que los demás (la diferencia sería muy significativa si estos además se corrieran de forma distribuida).
+Acá se espera una diferencia importante entre el servidor de Node y el de Python en base a quién pueda resolver los mismos cálculos en menor tiempo, pero todavía se tendrá como factor muy importante el número de requests que cada servidor pueda soportar de forma simultánea. Es por esto que se puede esperar que el servicio basado en varios servidores de Python (`gunicorn_replicated`) salga mejor parado que los demás (la diferencia sería muy significativa si los servidores de este se corrieran de forma distribuida).
 
 #### Resultados obtenidos
-En este caso, a diferencia de los demas, el servidor de Python (`gunicorn`) funcionó mejor que el de Node ya que Python es mucho mejor para resolver operaciones matemáticas. Se observa que no hubo un gran uso de CPU por parte del servidor Python (un poco mas del 1 %) mientras que el servidor Node tuvo un uso del 11 %; si bien esto no es un gran uso de CPU, sí lo es en comparación al de Python y al de los otros casos.
+En este caso, a diferencia de los demas, el servidor de Python (`gunicorn`) funcionó mejor que el de Node ya que Python resulta mucho mejor para resolver operaciones matemáticas. Se observa que no hubo un gran uso de CPU por parte del servidor Gunicorn (un poco mas del 1 %) mientras que el servidor Node tuvo un uso del 11 %; si bien esto no es un gran uso de CPU, sí lo es en comparación al de los casos basados en Python.
 
-Asimismo, se observa que también hay diferencia entre la cantidad de request finalizadas correctamente entre el servidor Gunicorn y el servidor Node, con ventaja del servidor basado en Python. La versión de servidores replicados (`gunicorn_replicated`, siempre con el *load balancer* de Nginx frente) y la multiworker (`gunicorn_multiworker`) tuvieron una gran mejoria en la cantidad de requests finalizadas correctamente, ya que no había un único hilo de ejecución.
+Asimismo, se observa que también hay una diferencia significativa entre la cantidad de requests finalizados correctamente en el servidor Gunicorn y en el servidor Node, con ventaja del servidor basado en Python. La versión de servidores replicados (`gunicorn_replicated`, siempre con el *load balancer* de Nginx frente) y la multiworker (`gunicorn_multiworker`) tuvieron una gran mejora en la cantidad de requests finalizados correctamente, ya que no había un único hilo de ejecución.
 
-El servidor de Gunicorn multiworker tuvo un mayor consumo de CPU, lo cual era lo esperado ya que era un único servidor, pero aun aśi bastante menor al consumo de recursos por parte del servidor Node. Por último, los servidores de Python replicados tuvieron menor consumo de CPU que el de Python individual ya que la carga se distribuía entre ellos y cada uno tenia una menor cantidad de requests que procesar. Los servidores replicados, al no tener tanto procesamiento a diferencia del multiworker, respondieron más rápido, provocando que los requests que recibían no fallaran por *timeout*.
+El servidor multiworker tuvo un mayor consumo de CPU, lo cual era lo esperado ya que era un único servidor, pero aun así bastante menor al consumo de recursos por parte del servidor Node. Por último, los servidores de Gunicorn replicados tuvieron menor consumo individual de CPU que el de Gunicorn individual ya que la carga se distribuía entre ellos y cada uno tuvo una menor cantidad de requests que procesar. Los servidores replicados, al no tener tanto procesamiento a diferencia del multiworker, respondieron más rápido, provocando que los requests que recibían no fallaran por *timeout*.
 
 | Node |
 |:----:|
