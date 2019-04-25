@@ -2,7 +2,7 @@
 
   - [Introducción](#introducci%C3%B3n)
   - [Casos de prueba](#casos-de-prueba)
-  - [Escenario común](#escenarios)
+  - [Escenarios](#escenarios)
   - [Limitaciones](#limitaciones)
   - [Workbench](#workbench)
   - [Resultados esperados](#resultados-esperados)
@@ -136,18 +136,16 @@ En este caso, a diferencia de los demas, el servidor de Python (`gunicorn`) func
 | <p style="text-align: center;">![alt text][intensive-node-graph]</p> |
 | <p style="text-align: center;">![alt text][intensive-node-summary]</p> |
 
-| Gunicorn |
-| ---- | ---- |
-| <p style="text-align: center;">![alt text][intensive-gunicorn-graph]</p> |
-| <p style="text-align: center;">![alt text][intensive-gunicorn-summary] |
+##### Gunicorn
+<p style="text-align: center;">![alt text][intensive-gunicorn-graph]</p>
+<p style="text-align: center;">![alt text][intensive-gunicorn-summary]</p>
 
 | Gunicorn replicado |
-| ---- | ---- |
 | <p style="text-align: center;">![alt text][intensive-gunicorn-rep-graph]</p> |
 | <p style="text-align: center;">![alt text][intensive-gunicorn-rep-summary]</p> |
 
 | Gunicorn multiworker |
-| ---- | ---- |
+| ---- |
 | <p style="text-align: center;">![alt text][intensive-gunicorn-mw-graph]</p> |
 | <p style="text-align: center;">![alt text][intensive-gunicorn-mw-summary]</p> |
 
