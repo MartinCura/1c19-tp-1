@@ -25,8 +25,8 @@ Los distintos casos que corremos son:
 \*Cada *worker* puede ocuparse de resolver 1 request de forma casi independiente, dejando a otros libres para nuevos requests.
 
 
-## Escenario común
-Para cada caso y endpoint testeados, simulamos el siguiente escenario de requests:
+## Escenarios
+En los casos pesados testeamos simplemente con un perfil plano de requests constantes. Para el caso particular de healthcheck, al tener poco costo computacional y de memoria, creamos un escenario más complejo para ver cómo reaccionan los servicios a los cambios. El escenario a simular para dicho caso es el siguiente:
 
 1. Plano con baja-mediana cantidad de requests
 1. Pico de requests, aumentando 5 veces su valor inicial
@@ -55,21 +55,27 @@ Como se trata de una consulta simple se espera que los resultados entre los dist
 
 | Node |
 | ---- | ---- |
-| ![alt text][health-node-graph] ![alt text][health-node-summary] |
+| <p style="text-align: center;">![alt text][health-node-graph]</p> |
+| <p style="text-align: center;">![alt text][health-node-summary]</p> |
 
 | Gunicorn |
 | ---- | ---- |
-| ![alt text][health-gunicorn-graph] ![alt text][health-gunicorn-summary] |
+| <p style="text-align: center;">![alt text][health-gunicorn-graph]</p> |
+| <p style="text-align: center;">![alt text][health-gunicorn-summary]</p> |
 
 | Gunicorn replicado |
 | ---- | ---- |
-| ![alt text][health-gunicorn-rep-graph] ![alt text][health-gunicorn-rep-summary] |
+| <p style="text-align: center;">![alt text][health-gunicorn-rep-graph]</p> |
+| <p style="text-align: center;">![alt text][health-gunicorn-rep-summary]</p> |
 
 | Gunicorn multiworker |
 | ---- | ---- |
-| ![alt text][health-gunicorn-mw-graph] ![alt text][health-gunicorn-mw-summary] |
+| <p style="text-align: center;">![alt text][health-gunicorn-mw-graph]</p> |
+| <p style="text-align: center;">![alt text][health-gunicorn-mw-summary]</p> |
 
-Para el caso de healthcheck no hay sorpresas en ninguna de las configuraciones (Node, Gunicorn, Gunicorn multiworker) tiene problemas con la carga leve y todos los requests obtienen respuesta. Como mediana de latencia se tienen algunos milisegundos en todos los casos y nunca un request tarda siquiera 100 ms. También vemos que en todos los casos el uso de CPU no es significativo.
+Para el caso de healthcheck no hay sorpresas: ninguna de las configuraciones (Node, Gunicorn, Gunicorn multiworker) tiene problemas con la carga leve y todos los requests obtienen respuesta. Esto es esperable al ser tan liviano el endpoint, aunque seguramente empezaríamos a ver problemas si el tráfico creciera de forma insostenible.
+
+Como mediana de latencia se tienen algunos milisegundos en todos los casos y nunca un request tarda siquiera 100 ms. También vemos que en todos los casos el uso de CPU no es significativo.
 
 
 ### Proxy/timeout
@@ -78,23 +84,27 @@ Este endpoint implica la espera de un tiempo determinado antes de responder. Imp
 **Resultados esperados:**
 En este caso esperamos que se note una diferencia entre el servidor de Python, el de Node y el de Python replicado. En el de Python simple deberia generarse un cuello de botella que se acentuaria notariamente en los picos de requests generados, lo cual en las múltiples intancias de Python se vería mas atenuado pero aun asi esperando algunos atrasos en las respuestas. Por su lado, para el de Node esperamos...............................
 
-**Resultados obtenidos:** [análisis] [gráficos]
+**Resultados obtenidos:**
 
 | Node |
 | ---- | ---- |
-| ![alt text][proxy-node-graph] ![alt text][proxy-node-summary]
+| <p style="text-align: center;">![alt text][proxy-node-graph]</p> |
+| <p style="text-align: center;">![alt text][proxy-node-summary]</p> |
 
 | Gunicorn |
 | ---- | ---- |
-| ![alt text][proxy-gunicorn-graph] ![alt text][proxy-gunicorn-summary] |
+| <p style="text-align: center;">![alt text][proxy-gunicorn-graph]</p> |
+| <p style="text-align: center;">![alt text][proxy-gunicorn-summary]</p> |
 
 | Gunicorn replicado |
 | ---- | ---- |
-| ![alt text][proxy-gunicorn-rep-graph] ![alt text][proxy-gunicorn-rep-summary] |
+| <p style="text-align: center;">![alt text][proxy-gunicorn-rep-graph]</p> |
+| <p style="text-align: center;">![alt text][proxy-gunicorn-rep-summary]</p> |
 
 | Gunicorn multiworker |
 | ---- | ---- |
-| ![alt text][proxy-gunicorn-mw-graph] ![alt text][proxy-gunicorn-mw-summary] |
+| <p style="text-align: center;">![alt text][proxy-gunicorn-mw-graph]</p> |
+| <p style="text-align: center;">![alt text][proxy-gunicorn-mw-summary]</p> |
 
 Para este endpoint solo hemos utilizado un escenario plano con una significativa cantidad de requests. Lo que buscamos es ver cómo cada servicio es afectado por recibir esta carga donde cada pedido ocupa un thread.
 
@@ -114,28 +124,33 @@ Este endpoint resuelve ciertas operaciones matemáticas antes de devolver, de fo
 **Resultados esperados:**
 Aca se espera una diferencia importante entre el servidor de Node y el de Python en base a quién pueda resolver los mismos cálculos en menor tiempo pero todavía se tendrá como factor muy importante el número de requests que cada servidor pueda soportar de forma simultánea. Es por esto que se puede esperar que el servicio basado en varios servidores de Python (`gunicorn_replicated`) salga mejor parado que los demás (la diferencia sería muy significativa si estos además se corrieran de forma distribuida).
 
-**Resultados obtenidos:** [análisis] [gráficos]
+**Resultados obtenidos:**
 
 | Node |
 | ---- | ---- |
-| ![alt text][intensive-node-graph] ![alt text][intensive-node-summary] |
+| <p style="text-align: center;">![alt text][intensive-node-graph]</p> |
+| <p style="text-align: center;">![alt text][intensive-node-summary]</p> |
 
 | Gunicorn |
 | ---- | ---- |
-| ![alt text][intensive-gunicorn-graph] ![alt text][intensive-gunicorn-summary] |
+| <p style="text-align: center;">![alt text][intensive-gunicorn-graph]</p> |
+| <p style="text-align: center;">![alt text][intensive-gunicorn-summary] |
 
 | Gunicorn replicado |
 | ---- | ---- |
-| ![alt text][intensive-gunicorn-rep-graph] ![alt text][intensive-gunicorn-rep-summary] |
+| <p style="text-align: center;">![alt text][intensive-gunicorn-rep-graph]</p> |
+| <p style="text-align: center;">![alt text][intensive-gunicorn-rep-summary]</p> |
 
 | Gunicorn multiworker |
 | ---- | ---- |
-| ![alt text][intensive-gunicorn-mw-graph] ![alt text][intensive-gunicorn-mw-summary] |
+| <p style="text-align: center;">![alt text][intensive-gunicorn-mw-graph]</p> |
+| <p style="text-align: center;">![alt text][intensive-gunicorn-mw-summary]</p> |
+
+...................
 
 
 
-
-
+[//]: # (Imágenes)
 
 [health-node-graph]: images/node_health.png "health-node-graph"
 [health-node-summary]: images/node_health_summary.png "health-node-summary"
