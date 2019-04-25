@@ -65,23 +65,23 @@ Como mediana de latencia se tienen algunos milisegundos en todos los casos y nun
 
 | Node |
 |:----:|
-| <p style="text-align: center;">![alt text][health-node-graph]</p> |
-| <p style="text-align: center;">![alt text][health-node-summary]</p> |
+| ![alt text][health-node-graph] |
+| ![alt text][health-node-summary] |
 
 | Gunicorn |
 |:----:|
-| <p style="text-align: center;">![alt text][health-gunicorn-graph]</p> |
-| <p style="text-align: center;">![alt text][health-gunicorn-summary]</p> |
+| ![alt text][health-gunicorn-graph] |
+| ![alt text][health-gunicorn-summary] |
 
 | Gunicorn replicado |
 |:----:|
-| <p style="text-align: center;">![alt text][health-gunicorn-rep-graph]</p> |
-| <p style="text-align: center;">![alt text][health-gunicorn-rep-summary]</p> |
+| ![alt text][health-gunicorn-rep-graph] |
+| ![alt text][health-gunicorn-rep-summary] |
 
 | Gunicorn multiworker |
 |:----:|
-| <p style="text-align: center;">![alt text][health-gunicorn-mw-graph]</p> |
-| <p style="text-align: center;">![alt text][health-gunicorn-mw-summary]</p> |
+| ![alt text][health-gunicorn-mw-graph] |
+| ![alt text][health-gunicorn-mw-summary] |
 
 
 ### Proxy/timeout
@@ -103,23 +103,23 @@ De igual manera esto no causa un gran uso........
 
 | Node |
 |:----:|
-| <p style="text-align: center;">![alt text][proxy-node-graph]</p> |
-| <p style="text-align: center;">![alt text][proxy-node-summary]</p> |
+| ![alt text][proxy-node-graph] |
+| ![alt text][proxy-node-summary] |
 
 | Gunicorn |
 |:----:|
-| <p style="text-align: center;">![alt text][proxy-gunicorn-graph]</p> |
-| <p style="text-align: center;">![alt text][proxy-gunicorn-summary]</p> |
+| ![alt text][proxy-gunicorn-graph] |
+| ![alt text][proxy-gunicorn-summary] |
 
 | Gunicorn replicado |
 |:----:|
-| <p style="text-align: center;">![alt text][proxy-gunicorn-rep-graph]</p> |
-| <p style="text-align: center;">![alt text][proxy-gunicorn-rep-summary]</p> |
+| ![alt text][proxy-gunicorn-rep-graph] |
+| ![alt text][proxy-gunicorn-rep-summary] |
 
 | Gunicorn multiworker |
 |:----:|
-| <p style="text-align: center;">![alt text][proxy-gunicorn-mw-graph]</p> |
-| <p style="text-align: center;">![alt text][proxy-gunicorn-mw-summary]</p> |
+| ![alt text][proxy-gunicorn-mw-graph] |
+| ![alt text][proxy-gunicorn-mw-summary] |
 
 
 ### Intensive
@@ -133,8 +133,8 @@ En este caso, a diferencia de los demas, el servidor de Python (`gunicorn`) func
 
 | Node |
 |:----:|
-| <p style="text-align: center;">![alt text][intensive-node-graph]</p> |
-| <p style="text-align: center;">![alt text][intensive-node-summary]</p> |
+| ![alt text][intensive-node-graph] |
+| ![alt text][intensive-node-summary] |
 
 | Gunicorn |
 |:----:|
@@ -142,14 +142,14 @@ En este caso, a diferencia de los demas, el servidor de Python (`gunicorn`) func
 | ![alt text][intensive-gunicorn-summary] |
 
 | Gunicorn replicado |
-| ---- |
-| <p style="text-align: center;">![alt text][intensive-gunicorn-rep-graph]</p> |
-| <p style="text-align: center;">![alt text][intensive-gunicorn-rep-summary]</p> |
+|:----:|
+| ![alt text][intensive-gunicorn-rep-graph] |
+| ![alt text][intensive-gunicorn-rep-summary] |
 
 | Gunicorn multiworker |
 |:----:|
-| <p style="text-align: center;">![alt text][intensive-gunicorn-mw-graph]</p> |
-| <p style="text-align: center;">![alt text][intensive-gunicorn-mw-summary]</p> |
+| ![alt text][intensive-gunicorn-mw-graph] |
+| ![alt text][intensive-gunicorn-mw-summary] |
 
 
 
